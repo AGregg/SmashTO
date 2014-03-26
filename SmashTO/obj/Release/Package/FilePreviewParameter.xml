@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="Default Web Site/test" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^c:\\users\\agregg\\documents\\visual\ studio\ 2013\\Projects\\MvcApplication1\\MvcApplication1\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^c:\\users\\agregg\\documents\\visual\ studio\ 2013\\Projects\\MvcApplication1\\MvcApplication1\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=(LocalDb)\v11.0;Initial Catalog=aspnet-MvcApplication1-20140325110407;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\aspnet-MvcApplication1-20140325110407.mdf" tags="">
+    <parameterEntry kind="XmlFile" scope="c:\\users\\agregg\\documents\\visual\ studio\ 2013\\Projects\\MvcApplication1\\MvcApplication1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>
