@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Web.WebPages.OAuth;
-using MvcApplication1.Models;
+using SmashTO.Models;
 
-namespace MvcApplication1
+namespace SmashTO
 {
     public static class AuthConfig
     {
