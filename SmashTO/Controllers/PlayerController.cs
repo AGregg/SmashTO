@@ -15,9 +15,12 @@ namespace SmashTO.Controllers
 {
     public class PlayerController : Controller
     {
+        [HttpGet]
         public ActionResult AddPlayer()
         {
-            return View();
+            var model = new PlayerModel { PlayerName = "" };
+
+            return View(model);
         }
     }
 }

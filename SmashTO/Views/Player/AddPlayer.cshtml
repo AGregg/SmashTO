@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Add Player";
 }
+@model SmashTO.Models.PlayerModel
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
@@ -9,9 +10,17 @@
                 <h2>@ViewBag.Message</h2>
             </hgroup>
             <p>
-                Add a player
+                
             </p>
         </div>
     </section>
 }
 <div>here is some other text that is pretty cool.</div>
+
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+    <div>
+        @Html.LabelFor(x => x.PlayerName)
+        @Html.TextBoxFor(x => x.PlayerName)
+    </div>
+    <input type="submit" value="Add" />
+}
