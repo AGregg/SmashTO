@@ -27,15 +27,15 @@ namespace SmashTO.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                try
-                {
+                //try
+                //{
 
                     return RedirectToAction("Index", "Home");
-                }
-                catch (MembershipCreateUserException e)
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+                //}
             }
 
             // If we got this far, something failed, redisplay form
