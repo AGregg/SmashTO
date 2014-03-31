@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
+using Microsoft.Ajax.Utilities;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using SmashTO.Filters;
@@ -26,20 +27,29 @@ namespace SmashTO.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Attempt to register the user
-                //try
-                //{
+                model.Rating = 1000;
+                using (var db = new PlayersContext())
+                {
+                    db.Players.Add(model);
+                    db.SaveChanges();
+                }
 
-                    return RedirectToAction("Index", "Home");
-                //}
-                //catch (Exception e)
-                //{
-                //    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-                //}
+                return RedirectToAction("Index", "Home");
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ViewPlayers()
+        {
+            using (var db = new PlayersContext())
+            {
+                var models = db.Players.ToList();
+
+                return View(models);
+            }
         }
     }
 }
