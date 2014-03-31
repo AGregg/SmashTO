@@ -1,13 +1,13 @@
 ﻿html {
-    background-color: #e2e2e2;
+    background-color: #010101;
     margin: 0;
     padding: 0;
 }
 
 body {
-    background-color: #fff;
+    background-color: #010101;
     border-top: solid 10px #000;
-    color: #333;
+    color: white;
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
     margin: 0;
@@ -24,7 +24,7 @@ a {
 
     a:link, a:visited,
     a:active, a:hover {
-        color: #333;
+        color: white;
     }
 
     a:hover {
@@ -37,7 +37,8 @@ nav, section {
 }
 
 mark {
-    background-color: #a6dbed;
+    color: white;
+    background-color: #ff2f2f;
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -60,7 +61,7 @@ mark {
 
 h1, h2, h3,
 h4, h5, h6 {
-    color: #000;
+    color: white;
     margin-bottom: 0;
     padding-bottom: 0;
 }
@@ -99,20 +100,21 @@ h5, h6 {
 }
 
 #body {
-    background-color: #efeeef;
+    background-color: #121212;
     clear: both;
     padding-bottom: 35px;
 }
 
-    .main-content {
+    /*.main-content {
         background: url("../Images/accent.png") no-repeat;
         padding-left: 10px;
         padding-top: 30px;
-    }
+    }*/
 
-    .featured + .main-content {
+    /*Adds the hero accent when uncommented*/
+    /*.featured + .main-content {
         background: url("../Images/heroAccent.png") no-repeat;
-    }
+    }*/
 
 header .content-wrapper {
     padding-top: 20px; 
@@ -120,7 +122,7 @@ header .content-wrapper {
 
 footer {
     clear: both;
-    background-color: #e2e2e2;
+    background-color: #010101;
     font-size: .8em;
     height: 100px;
 }
@@ -129,7 +131,7 @@ footer {
 /* site title
 ----------------------------------------------------------*/
 .site-title {
-    color: #c8c8c8;
+    color: white;
     font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
     font-size: 2.3em;
     margin: 0;
@@ -137,7 +139,7 @@ footer {
 
 .site-title a, .site-title a:hover, .site-title a:active {
     background: none;
-    color: #c8c8c8;
+    color: white;
     outline: none;
     text-decoration: none;
 }
@@ -153,11 +155,12 @@ footer {
 }
 
     #login a {
-        background-color: #d3dce0;
+        background-color: #ff0f0f;
         margin-left: 10px;
         margin-right: 3px;
         padding: 2px 3px;
         text-decoration: none;
+        border-radius: 5px;
     }
 
     #login a.username {
@@ -195,12 +198,12 @@ ul#menu {
 
         ul#menu li a {
             background: none;
-            color: #999;
+            color: white;
             text-decoration: none;
         }
 
         ul#menu li a:hover {
-            color: #333;
+            color: #7f8c8d;
             text-decoration: none;
         }
 
@@ -209,18 +212,14 @@ ul#menu {
 ----------------------------------------------------------*/
 /* featured */
 .featured {
-    background-color: #fff;
+    background-color: #121212;
 }
 
     .featured .content-wrapper {
-        background-color: #7ac0da;
-        background-image: -ms-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -o-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
-        background-image: -webkit-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        color: #3e5667;
+        background-color: #ff0f0f;
+        color: white;
         padding: 20px 40px 30px 40px;
+        border-radius: 15px;
     }
 
         .featured hgroup.title h1, .featured hgroup.title h2 {
@@ -426,8 +425,8 @@ label.checkbox {
 
 input, textarea {
     border: 1px solid #e2e2e2;
-    background: #fff;
-    color: #333;
+    background: #333;
+    color: white;
     font-size: 1.2em;
     margin: 5px 0 6px 0;
     padding: 5px;
@@ -452,7 +451,7 @@ textarea {
     input[type="submit"],
     input[type="button"],
     button {
-        background-color: #d3dce0;
+        background-color: #ff2f2f;
         border: 1px solid #787878;
         cursor: pointer;
         font-size: 1.2em;
@@ -547,14 +546,14 @@ th {
     }
 
     th a:link, th a:visited, th a:active, th a:hover {
-        color: #333;
+        color: white;
         font-weight: 600;
         text-decoration: none;
         padding: 0;
     }
 
     th a:hover {
-        color: #000;
+        color: gray;
     }
 
     th.asc a, th.desc a {
@@ -633,7 +632,7 @@ tr.pager td {
         }
 
         #login a:hover {
-            color: #333;
+            color: #7f8c8d;
         }
 
     /* menu */
