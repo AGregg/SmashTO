@@ -1,5 +1,6 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using SmashTO
+@{
+    ViewBag.Title = "Start a Bracket";
 }
 @section featured {
     <section class="featured">
@@ -9,22 +10,22 @@
                 <h2>@ViewBag.Message</h2>
             </hgroup>
             <p>
-                This is the bracket home page woop woop
+                Select a bracket type
             </p>
         </div>
     </section>
 }
 <h3>We suggest the following:</h3>
 <ol class="round">
-    <li class="one">
-        Swiss Bracket
+    <li class="one" style="height:30px">
+        @Html.ActionLink("Swiss Style Bracket", "PlayerSelect", "Tournament", new { format = TournamentFormat.Swiss }, null)
     </li>
 
-    <li class="two">
-        Single Elimination Bracket
+    <li class="two" style="height:30px">
+        @Html.ActionLink("Swiss Style Bracket", "PlayerSelect", "Tournament", new { format = TournamentFormat.SingleElimination }, null)
     </li>
 
-    <li class="three">
+    <li class="three" style="height:30px">
         Future Brackets
     </li>
 </ol>

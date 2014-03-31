@@ -19,5 +19,12 @@ namespace SmashTO.Controllers
         {
             return View();
         }
+
+        public ActionResult PlayerSelect(TournamentFormat format)
+        {
+            var model = new PlayerSelectModel { Format = format };
+
+            return View(model);
+        }
     }
 }

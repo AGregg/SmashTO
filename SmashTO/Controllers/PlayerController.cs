@@ -46,10 +46,22 @@ namespace SmashTO.Controllers
         {
             using (var db = new PlayersContext())
             {
-                var models = db.Players.ToList();
+                var models = db.Players.ToList().OrderByDescending(x => x.Rating);
 
                 return View(models);
             }
+        }
+
+        public ActionResult Remove(int playerId)
+        {
+            using (var db = new PlayersContext())
+            {
+                var playerToRemove = db.Players.Find(playerId);
+                db.Players.Remove(playerToRemove);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("ViewPlayers", "Player");
         }
     }
 }

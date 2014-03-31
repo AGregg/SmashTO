@@ -21,6 +21,7 @@
         <th style="width:10%">ID</th>
         <th style="width:30%">Name</th>
         <th style="width:10%">Rating</th>
+        <th></th>
     </tr>
     @if (Model != null && Model.Any()){
         foreach (var player in Model)
@@ -29,6 +30,7 @@
                 <td>@player.PlayerId</td>
                 <td>@player.PlayerName</td>
                 <td>@player.Rating</td>
+                <td>@Html.ActionLink("Remove", "Remove", "Player", new { playerId = player.PlayerId }, null)</td>
             </tr>
         }
     }

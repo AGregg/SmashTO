@@ -187,6 +187,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Content\TournamentFormat.cs" />
     <Compile Include="Controllers\BracketController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\PlayerSelectModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Models\BracketModels.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -317,6 +319,7 @@
     <Content Include="Views\Tournament\SwissBracket.cshtml" />
     <Content Include="Views\Player\AddPlayer.cshtml" />
     <Content Include="Views\Tournament\BracketHome.cshtml" />
+    <Content Include="Views\Tournament\PlayerSelect.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
