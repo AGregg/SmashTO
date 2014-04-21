@@ -1,0 +1,25 @@
+﻿@model SmashTO.Models.PlayerSelectModel
+
+@{
+    ViewBag.Title = "Select Players";
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#multiSelect").multiSelect();
+    });
+</script>
+
+@using (Html.BeginForm("PlayerSelect", "Bracket", IsPost)) {
+    
+<p id="test">Format:</p>
+<p>@Html.Label(Model.Format.ToString())</p>
+
+    <br/>
+    
+    <p>@Html.DropDownListFor(x => x.SelectedPlayerIds, new SelectList(Model.Players, "PlayerId", "PlayerName", Model.Players.Select(x => x.PlayerId)), new { multiple = "multiple", @id="multiSelect" })</p>
+    
+    <p>
+        <input type="submit" value="Start Bracket" />
+    </p>
+}
