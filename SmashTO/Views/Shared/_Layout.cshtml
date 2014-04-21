@@ -7,6 +7,11 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/jquerymultiselect")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Styles.Render("~/Content/themes/base/css")
     </head>
     <body>
         <header>
@@ -22,7 +27,7 @@
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("Players", "ViewPlayers", "Player")</li>
-                            <li>@Html.ActionLink("Brackets", "BracketHome", "Tournament")</li>
+                            <li>@Html.ActionLink("Brackets", "BracketHome", "Bracket")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         </ul>
@@ -44,7 +49,6 @@
             </div>
         </footer>
 
-        @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
     </body>
 </html>

@@ -196,13 +196,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\MatchModel.cs" />
+    <Compile Include="Models\ResultsModel.cs" />
+    <Compile Include="Models\SwissModel.cs" />
     <Compile Include="Models\PlayerSelectModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
-    <Compile Include="Models\BracketModels.cs" />
+    <Compile Include="Models\BracketModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\themes\base\images\switch.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -257,6 +261,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\multi-select.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\TestProfile.pubxml" />
@@ -266,6 +271,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.multi-select.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -275,7 +281,9 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -314,12 +322,12 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Tournament\SingleElimBracket.cshtml" />
+    <Content Include="Views\Bracket\SingleElimBracket.cshtml" />
     <Content Include="Views\Player\ViewPlayers.cshtml" />
-    <Content Include="Views\Tournament\SwissBracket.cshtml" />
+    <Content Include="Views\Bracket\SwissBracket.cshtml" />
     <Content Include="Views\Player\AddPlayer.cshtml" />
-    <Content Include="Views\Tournament\BracketHome.cshtml" />
-    <Content Include="Views\Tournament\PlayerSelect.cshtml" />
+    <Content Include="Views\Bracket\BracketHome.cshtml" />
+    <Content Include="Views\Bracket\PlayerSelect.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
