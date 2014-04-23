@@ -2,7 +2,7 @@
 
 namespace SmashTO.Models
 {
-    [Table("SwissMatches")]
+    [Table("Matches")]
     public class MatchModel
     {
         public PlayerModel Player1 { get; set; }

@@ -26,40 +26,54 @@
     </section>
 }
 
-@using (Html.BeginForm("PostSwissBracket", "Bracket", IsPost))
+@using (Html.BeginForm("SwissBracket", "Bracket", IsPost))
 {
     @Html.HiddenFor(x => x.TournamentId)
     @Html.HiddenFor(x => x.RoundNumber)
     <table>
         <thead>
             <tr style="font-family: bold">
+                <td style="width:5%">Wins</td>
                 <td style="width:10%">Player 1</td>
                 <td style="width:10%">Rating</td>
                 <td style="width:5%"></td>
+                <td style="width:5%">Wins</td>
                 <td style="width:10%">Player 2</td>
                 <td style="width:10%">Rating</td>
             </tr>
         </thead>
         @for (int i = 0; i < Model.Matches.Count(); i++)
         {
-        <tr>
-            <td class="tag">
-                @Html.HiddenFor(x => x.Matches[i].Player1.PlayerId, new {@class="id"})
-                @Html.DisplayTextFor(x => x.Matches[i].Player1.PlayerName)
-            </td>
-            <td>
-                @Html.DisplayTextFor(x => x.Matches[i].Player1.Rating)
-            </td>
-            <td>VS</td>
-            <td class="tag">
-                @Html.HiddenFor(x => x.Matches[i].Player2.PlayerId, new { @class = "id" })
-                @Html.DisplayTextFor(x => x.Matches[i].Player2.PlayerName)
-            </td>
-            <td>
-                @Html.DisplayTextFor(x => x.Matches[i].Player2.Rating)
-            </td>
-            @Html.HiddenFor(x => x.Matches[i].WinnerId, new { @class = "winnerId" })
-        </tr>
+            <tr>
+                <td>
+                    @Html.HiddenFor(x => x.Matches[i].Player1Wins)
+                    @Html.DisplayTextFor(x => x.Matches[i].Player1Wins)
+                </td>
+                <td class="tag">
+                    @Html.HiddenFor(x => x.Matches[i].Player1.PlayerId, new {@class="id"})
+                    @Html.HiddenFor(x => x.Matches[i].Player1.PlayerName)
+                    @Html.DisplayTextFor(x => x.Matches[i].Player1.PlayerName)
+                </td>
+                <td>
+                    @Html.HiddenFor(x => x.Matches[i].Player1.Rating)
+                    @Html.DisplayTextFor(x => x.Matches[i].Player1.Rating)
+                </td>
+                <td>VS</td>
+                <td>
+                    @Html.HiddenFor(x => x.Matches[i].Player2Wins)
+                    @Html.DisplayTextFor(x => x.Matches[i].Player2Wins)
+                </td>
+                <td class="tag">
+                    @Html.HiddenFor(x => x.Matches[i].Player2.PlayerId, new { @class = "id" })
+                    @Html.HiddenFor(x => x.Matches[i].Player2.PlayerName)
+                    @Html.DisplayTextFor(x => x.Matches[i].Player2.PlayerName)
+                </td>
+                <td>
+                    @Html.HiddenFor(x => x.Matches[i].Player2.Rating)
+                    @Html.DisplayTextFor(x => x.Matches[i].Player2.Rating)
+                </td>
+                @Html.HiddenFor(x => x.Matches[i].WinnerId, new { @class = "winnerId" })
+            </tr>
         }
     </table>
     <p>

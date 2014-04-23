@@ -64,13 +64,6 @@ namespace SmashTO.Models
         }
     }
 
-    //public class SwissModel
-    //{
-    //    public int TournamentId { get; set; }
-    //    public int RoundNumber { get; set; }
-        
-    //}
-
     [Table("SwissMatches")]
     public class SwissMatchModel : MatchModel
     {
@@ -99,5 +92,20 @@ namespace SmashTO.Models
             Player1Wins = 0;
             Player2Wins = 0;
         }
+
+        public SwissMatchModel(SwissPlayerModel p1, SwissPlayerModel p2)
+        {
+            Player1 = p1.Player;
+            Player2 = p2.Player;
+            WinnerId = 0;
+            Player1Wins = p1.Wins;
+            Player2Wins = p2.Wins;
+        }
+    }
+
+    public class SwissPlayerModel
+    {
+        public PlayerModel Player { get; set; }
+        public int Wins { get; set; }
     }
 }
