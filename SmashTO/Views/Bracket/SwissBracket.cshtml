@@ -1,45 +1,68 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model SmashTO.Models.SwissRound
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".tag").css("cursor", "pointer");
+
+        $(".tag").on("click", function() {
+            var row = $(this).closest("tr");
+            row.find("td").css("background-color", "#121212");
+            $(this).css("background-color", "#ff0f0f");
+            row.find(".winnerId").val($(this).find(".id").val());
+        });
+    });
+</script>
+
+@{
+    ViewBag.Title = "Swiss Bracket Round " + Model.RoundNumber;
 }
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
                 <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
             </hgroup>
-            <p>
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-            </p>
         </div>
     </section>
 }
-<h3>We suggest the following:</h3>
-<ol class="round">
-    <li class="one">
-        <h5>Getting Started</h5>
-        ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-        enables a clean separation of concerns and that gives you full control over markup
-        for enjoyable, agile development. ASP.NET MVC includes many features that enable
-        fast, TDD-friendly development for creating sophisticated applications that use
-        the latest web standards.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
-    </li>
 
-    <li class="two">
-        <h5>Add NuGet packages and jump-start your coding</h5>
-        NuGet makes it easy to install and update free libraries and tools.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
-    </li>
-
-    <li class="three">
-        <h5>Find Web Hosting</h5>
-        You can easily find a web hosting company that offers the right mix of features
-        and price for your applications.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
-    </li>
-</ol>
+@using (Html.BeginForm("PostSwissBracket", "Bracket", IsPost))
+{
+    @Html.HiddenFor(x => x.TournamentId)
+    @Html.HiddenFor(x => x.RoundNumber)
+    <table>
+        <thead>
+            <tr style="font-family: bold">
+                <td style="width:10%">Player 1</td>
+                <td style="width:10%">Rating</td>
+                <td style="width:5%"></td>
+                <td style="width:10%">Player 2</td>
+                <td style="width:10%">Rating</td>
+            </tr>
+        </thead>
+        @for (int i = 0; i < Model.Matches.Count(); i++)
+        {
+        <tr>
+            <td class="tag">
+                @Html.HiddenFor(x => x.Matches[i].Player1.PlayerId, new {@class="id"})
+                @Html.DisplayTextFor(x => x.Matches[i].Player1.PlayerName)
+            </td>
+            <td>
+                @Html.DisplayTextFor(x => x.Matches[i].Player1.Rating)
+            </td>
+            <td>VS</td>
+            <td class="tag">
+                @Html.HiddenFor(x => x.Matches[i].Player2.PlayerId, new { @class = "id" })
+                @Html.DisplayTextFor(x => x.Matches[i].Player2.PlayerName)
+            </td>
+            <td>
+                @Html.DisplayTextFor(x => x.Matches[i].Player2.Rating)
+            </td>
+            @Html.HiddenFor(x => x.Matches[i].WinnerId, new { @class = "winnerId" })
+        </tr>
+        }
+    </table>
+    <p>
+        <input type="submit" value="Next Round" />
+    </p>
+}

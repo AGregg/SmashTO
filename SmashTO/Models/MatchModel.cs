@@ -2,32 +2,32 @@
 
 namespace SmashTO.Models
 {
-    [Table("SwissBrackets")]
-    public class Match
+    [Table("SwissMatches")]
+    public class MatchModel
     {
-        public int TournamentId { get; set; }
-        public bool Finalized { get; set; }
+        public PlayerModel Player1 { get; set; }
+        public PlayerModel Player2 { get; set; }
         public int WinnerId { get; set; }
-        public int LoserId { get; set; }
 
-        public Match()
+        public MatchModel()
         {
-            Finalized = false;
+            Player1 = null;
+            Player2 = null;
             WinnerId = 0;
-            LoserId = 0;
         }
 
-        //public void Swap()
-        //{
-        //    var tempId = LoserId;
-        //    var LoserId = WinnerId;
-        //    WinnerId = tempId;
-        //    Finalize();
-        //}
+        public MatchModel(PlayerModel bye)
+        {
+            Player1 = bye;
+            Player2 = new PlayerModel{PlayerName = "bye", PlayerId = -1, Rating = 0};
+            WinnerId = bye.PlayerId;
+        }
 
-        //public void Finalize()
-        //{
-        //    Finalized = true;
-        //}
+        public MatchModel(PlayerModel p1, PlayerModel p2)
+        {
+            Player1 = p1;
+            Player2 = p2;
+            WinnerId = 0;
+        }
     }
 }

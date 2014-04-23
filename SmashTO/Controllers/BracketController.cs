@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using SmashTO.Models;
 
 namespace SmashTO.Controllers
@@ -14,13 +16,6 @@ namespace SmashTO.Controllers
         public ActionResult PlayerSelect(TournamentFormat format)
         {
             var model = new PlayerSelectModel { Format = format };
-            //model.Players.Add(new PlayerModel { PlayerName = "scrub 1", PlayerId = 1 });
-            //model.Players.Add(new PlayerModel { PlayerName = "scrub 2", PlayerId = 2 });
-            //model.Players.Add(new PlayerModel { PlayerName = "scrub 3", PlayerId = 3 });
-            //model.Players.Add(new PlayerModel { PlayerName = "scrub 4", PlayerId = 4 });
-            //model.Players.Add(new PlayerModel { PlayerName = "scrub 5", PlayerId = 5 });
-            //model.Players.Add(new PlayerModel { PlayerName = "scrub 6", PlayerId = 6 });
-            //model.Players.Add(new PlayerModel { PlayerName = "scrub 7", PlayerId = 7 });
             
             //using (var db = new PlayersContext())
             //{
@@ -37,31 +32,67 @@ namespace SmashTO.Controllers
         [HttpPost]
         public ActionResult PlayerSelect(PlayerSelectModel returnedPlayersModel)
         {
-            //if (returnedPlayersModel.Format == TournamentFormat.Swiss)
-            //{
-            //    var swissModel = new SwissModel();
-            //    using (var db = new PlayersContext())
-            //    {
-            //        var players = db.Players;
-            //        foreach (PlayerModel player in players)
-            //        {
-            //            swissModel.Players.Add(player);
-            //        }
-            //    }
-            //}
-            
             if (returnedPlayersModel.Format == TournamentFormat.Swiss)
             {
                 var swissBracketModel = new SwissBracket();
-                swissBracketModel.Rounds.Add(new SwissRound());
 
-                foreach (var player in returnedPlayersModel.Players)
+                var round = new SwissRound(swissBracketModel.TournamentId, 1);
+
+                var players = new List<PlayerModel>();
+
+                foreach (var playerId in returnedPlayersModel.SelectedPlayerIds)
                 {
-                    
+                    foreach (var player in returnedPlayersModel.Players)
+                    {
+                        if (playerId == player.PlayerId)
+                        {
+                            players.Add(player);
+                        }
+                    }
                 }
+
+                //var players = returnedPlayersModel.SelectedPlayerIds.OrderByDescending(x => x.Rating).ToList();
+
+                while (players.Count() > 1)
+                {
+                    var matchModel = new SwissMatchModel(players.First(), players.Last());
+                    round.Matches.Add(matchModel);
+                    players.RemoveAt(players.Count() - 1);
+                    players.RemoveAt(0);
+                }
+
+                if (players.Any())
+                {
+                    round.Matches.Add(new SwissMatchModel(players.First()));
+                }
+
+                foreach (var match in round.Matches)
+                {
+                    match.Player1Wins = 0;
+                    match.Player2Wins = 0;
+                }
+
+                swissBracketModel.Rounds.Add(round);
+
+                //using (var db = new SwissBracketContext())
+                //{
+                //    db.SwissBrackets.Add(swissBracketModel);
+                //    db.SaveChanges();
+                //}
+
+                return View("SwissBracket", round);
             }
 
             return View(returnedPlayersModel);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult PostSwissBracket(SwissRound returnedRound)
+        {
+
+            return View("SwissBracket", returnedRound);
         }
     }
 }
