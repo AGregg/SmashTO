@@ -198,6 +198,7 @@
     </Compile>
     <Compile Include="Models\MatchModel.cs" />
     <Compile Include="Models\ResultsModel.cs" />
+    <Compile Include="Models\SwissRound.cs" />
     <Compile Include="Models\SwissModel.cs" />
     <Compile Include="Models\PlayerSelectModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />

@@ -12,6 +12,8 @@ namespace SmashTO.Models
     [Table("SwissBrackets")]
     public class SwissModel : BracketModel
     {
+        public IList<Swiss>
+
         public override IList<MatchModel> Matches()
         {
             throw new NotImplementedException();

@@ -61,8 +61,6 @@ namespace SmashTO.Controllers
             //    }
             //}
             
-
-
             return View(returnedPlayersModel);
         }
     }
