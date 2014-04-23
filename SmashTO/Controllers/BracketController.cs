@@ -50,6 +50,17 @@ namespace SmashTO.Controllers
             //    }
             //}
             
+            if (returnedPlayersModel.Format == TournamentFormat.Swiss)
+            {
+                var swissBracketModel = new SwissBracket();
+                swissBracketModel.Rounds.Add(new SwissRound());
+
+                foreach (var player in returnedPlayersModel.Players)
+                {
+                    
+                }
+            }
+
             return View(returnedPlayersModel);
         }
     }
