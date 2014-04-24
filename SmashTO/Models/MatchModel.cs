@@ -1,32 +1,44 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmashTO.Models
 {
     [Table("Matches")]
     public class MatchModel
     {
-        public PlayerModel Player1 { get; set; }
-        public PlayerModel Player2 { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MatchId { get; set; }
+        
+        //[ForeignKey("Player1")]
+        public int Player1Id { get; set; }
+        //public virtual PlayerModel Player1 { get; set; }
+
+        public int Player2Id { get; set; }
+        //public virtual PlayerModel Player2 { get; set; }
+
+        
         public int WinnerId { get; set; }
+        //public virtual PlayerModel Winner { get; set; }
 
         public MatchModel()
         {
-            Player1 = null;
-            Player2 = null;
+            Player1Id = 0;
+            Player2Id = 0;
             WinnerId = 0;
         }
 
-        public MatchModel(PlayerModel bye)
+        public MatchModel(int byeId)
         {
-            Player1 = bye;
-            Player2 = new PlayerModel{PlayerName = "bye", PlayerId = -1, Rating = 0};
-            WinnerId = bye.PlayerId;
+            Player1Id = byeId;
+            Player2Id = -1;
+            WinnerId = byeId;
         }
 
-        public MatchModel(PlayerModel p1, PlayerModel p2)
+        public MatchModel(int p1, int p2)
         {
-            Player1 = p1;
-            Player2 = p2;
+            Player1Id = p1;
+            Player2Id = p2;
             WinnerId = 0;
         }
     }

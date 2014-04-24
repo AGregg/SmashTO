@@ -196,6 +196,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201404241319420_InitialCreate.cs" />
+    <Compile Include="Migrations\201404241319420_InitialCreate.Designer.cs">
+      <DependentUpon>201404241319420_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MatchModel.cs" />
     <Compile Include="Models\ResultsModel.cs" />
     <Compile Include="Models\SwissModels.cs" />
@@ -206,6 +211,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Database1.mdf" />
+    <Content Include="App_Data\Database1_log.ldf">
+      <DependentUpon>Database1.mdf</DependentUpon>
+    </Content>
+    <Content Include="App_Data\Database2.mdf" />
+    <Content Include="App_Data\Database2_log.ldf">
+      <DependentUpon>Database2.mdf</DependentUpon>
+    </Content>
+    <Content Include="App_Data\Database3.mdf" />
+    <Content Include="App_Data\Database3_log.ldf">
+      <DependentUpon>Database3.mdf</DependentUpon>
+    </Content>
+    <Content Include="App_Data\Database4.mdf" />
+    <Content Include="App_Data\Database4_log.ldf">
+      <DependentUpon>Database4.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\images\switch.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -328,9 +349,12 @@
     <Content Include="Views\Player\AddPlayer.cshtml" />
     <Content Include="Views\Bracket\BracketHome.cshtml" />
     <Content Include="Views\Bracket\PlayerSelect.cshtml" />
+    <Content Include="Views\Bracket\Results.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <EmbeddedResource Include="Migrations\201404241319420_InitialCreate.resx">
+      <DependentUpon>201404241319420_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
