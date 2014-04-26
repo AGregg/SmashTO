@@ -5,7 +5,7 @@ namespace SmashTO.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<SmashTO.Models.SwissBracketContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<SmashTO.Models.TournamentContext>
     {
         public Configuration()
         {
@@ -13,7 +13,7 @@ namespace SmashTO.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(SmashTO.Models.SwissBracketContext context)
+        protected override void Seed(SmashTO.Models.TournamentContext context)
         {
             //  This method will be called after migrating to the latest version.
 

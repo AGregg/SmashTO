@@ -19,7 +19,7 @@ namespace SmashTO.Controllers
         {
             var model = new PlayerSelectModel { Format = format };
 
-            using (var db = new PlayersContext())
+            using (var db = new TournamentContext())
             {
                 model.Players = db.Players.ToList();
             }
@@ -78,7 +78,7 @@ namespace SmashTO.Controllers
         public ActionResult SwissBracket(int tournamentId)
         {
             var bracket = new SwissBracket();
-            using (var db = new SwissBracketContext())
+            using (var db = new TournamentContext())
             {
                 bracket = db.SwissBrackets.SingleOrDefault(x => x.TournamentId == tournamentId);
             }

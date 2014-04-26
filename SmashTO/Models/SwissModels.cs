@@ -7,18 +7,6 @@ using System.Linq;
 
 namespace SmashTO.Models
 {
-    public class SwissBracketContext : DbContext
-    {
-        public SwissBracketContext()
-            : base("DefaultConnection")
-        {
-        }
-
-        public DbSet<SwissBracket> SwissBrackets { get; set; }
-        public DbSet<SwissRound> SwissRounds { get; set; }
-        public DbSet<SwissMatch> SwissMatches { get; set; }
-    }
-
     [Table("SwissBrackets")]
     public class SwissBracket : BracketModel
     {
@@ -28,7 +16,7 @@ namespace SmashTO.Models
         {
             var rounds = new List<SwissRound>();
 
-            using (var db = new SwissBracketContext())
+            using (var db = new TournamentContext())
             {
                 rounds = db.SwissRounds.Where(x => x.TournamentId == TournamentId).OrderBy(x => x.RoundNumber).ToList();
             }
@@ -42,7 +30,7 @@ namespace SmashTO.Models
 
             var players = new List<PlayerModel>();
 
-            using (var db = new PlayersContext())
+            using (var db = new TournamentContext())
             {
                 players = db.Players.Where(x => playerIds.Contains(x.PlayerId)).ToList();
             }
@@ -63,8 +51,8 @@ namespace SmashTO.Models
             {
                 matches.Add(new SwissMatch(players.First()));
             }
-                
-            using (var db = new SwissBracketContext())
+
+            using (var db = new TournamentContext())
             {
                 db.SwissBrackets.Add(this);
                 db.SwissRounds.Add(round);
@@ -122,7 +110,7 @@ namespace SmashTO.Models
                     }
                 }
             }
-            using (var db = new SwissBracketContext())
+            using (var db = new TournamentContext())
             {
                 db.SwissRounds.Add(nextRound);
                 foreach (var match in matches)
@@ -154,7 +142,7 @@ namespace SmashTO.Models
                 if (match.Player2Id > 0) playerIds.Add(match.Player2Id);
             }
 
-            using (var db = new PlayersContext())
+            using (var db = new TournamentContext())
             {
                 players = db.Players.Where(x => playerIds.Contains(x.PlayerId)).ToList();
             }
@@ -191,7 +179,7 @@ namespace SmashTO.Models
         public IList<SwissMatch> Matches()
         {
             var matches = new List<SwissMatch>();
-            using (var db = new SwissBracketContext())
+            using (var db = new TournamentContext())
             {
                 matches = db.SwissMatches.Where(x => x.RoundId == RoundId).ToList();
             }
@@ -207,12 +195,12 @@ namespace SmashTO.Models
 
             var bracket = new SwissBracket();
 
-            using (var db = new SwissBracketContext())
+            using (var db = new TournamentContext())
             {
                 bracket = db.SwissBrackets.SingleOrDefault(x => x.TournamentId == TournamentId);
             }
 
-            using (var db = new PlayersContext())
+            using (var db = new TournamentContext())
             {
                 foreach (var match in matches)
                 {

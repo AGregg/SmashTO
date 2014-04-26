@@ -4,16 +4,6 @@ using System.Data.Entity;
 
 namespace SmashTO.Models
 {
-    public class PlayersContext : DbContext
-    {
-        public PlayersContext()
-            : base("DefaultConnection")
-        {
-        }
-
-        public DbSet<PlayerModel> Players { get; set; }
-    }
-
     [Table("Players")]
     public class PlayerModel
     {

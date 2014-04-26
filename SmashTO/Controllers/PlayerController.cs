@@ -18,7 +18,7 @@ namespace SmashTO.Controllers
             if (ModelState.IsValid)
             {
                 model.Rating = 1000;
-                using (var db = new PlayersContext())
+                using (var db = new TournamentContext())
                 {
                     db.Players.Add(model);
                     db.SaveChanges();
@@ -34,7 +34,7 @@ namespace SmashTO.Controllers
         [HttpGet]
         public ActionResult ViewPlayers()
         {
-            using (var db = new PlayersContext())
+            using (var db = new TournamentContext())
             {
                 var models = db.Players.ToList().OrderByDescending(x => x.Rating);
 
@@ -44,7 +44,7 @@ namespace SmashTO.Controllers
 
         public ActionResult Remove(int playerId)
         {
-            using (var db = new PlayersContext())
+            using (var db = new TournamentContext())
             {
                 var playerToRemove = db.Players.Find(playerId);
                 db.Players.Remove(playerToRemove);
