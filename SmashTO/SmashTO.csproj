@@ -202,6 +202,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MatchModel.cs" />
+    <Compile Include="Models\Result.cs" />
     <Compile Include="Models\TournamentContext.cs" />
     <Compile Include="Models\ResultsModel.cs" />
     <Compile Include="Models\SwissModels.cs" />

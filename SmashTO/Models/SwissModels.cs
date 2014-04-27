@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SmashTO.Models
 {
@@ -166,11 +167,29 @@ namespace SmashTO.Models
             var players = Players();
             var swissPlayers = players.Select(player => new SwissPlayerModel(player, matches)).ToList();
             return swissPlayers;
-        } 
+        }
 
-        public override IList<ResultsModel> Results()
+        public bool isOver()
         {
-            throw new NotImplementedException();
+            var players = SwissPlayers().OrderByDescending(x => x.Wins).ThenByDescending(x => x.Player.Rating).ToList();
+            return (players[0].Wins > players[1].Wins);
+        }
+
+        public override ResultsModel Results()
+        {
+            var players = SwissPlayers().OrderByDescending(x => x.Wins).ThenByDescending(x => x.Player.Rating).ToList();
+            var resultsModel = new ResultsModel();
+            for (int i = 0; i < players.Count; i++)
+            {
+                resultsModel.Results.Add(new Result
+                {
+                    Placing = i + 1,
+                    PlayerName = players[i].Player.PlayerName,
+                    Score = players[i].Wins
+                });
+            }
+            resultsModel.TournamentName = Name;
+            return resultsModel;
         }
     }
 

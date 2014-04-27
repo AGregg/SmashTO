@@ -33,7 +33,7 @@ namespace SmashTO.Controllers
         {
             if (returnedPlayersModel.Format == TournamentFormat.Swiss)
             {
-                var swissBracketModel = new SwissBracket();
+                var swissBracketModel = new SwissBracket{Name = returnedPlayersModel.TournamentName};
                 swissBracketModel.SeedFirstRound(returnedPlayersModel.SelectedPlayerIds.ToList());
 
                 return RedirectToAction("SwissBracket", new { tournamentId = swissBracketModel.TournamentId });
@@ -60,7 +60,7 @@ namespace SmashTO.Controllers
         [HttpPost]
         public ActionResult SwissBracket(SwissRoundModel returnedRound)
         {
-            var tournament = new SwissBracket { TournamentId = returnedRound.TournamentId };
+            SwissBracket tournament;
 
             using (var db = new TournamentContext())
             {
@@ -75,17 +75,35 @@ namespace SmashTO.Controllers
                 }
 
                 db.SaveChanges();
+
+                tournament = db.SwissBrackets.SingleOrDefault(x => x.TournamentId == returnedRound.TournamentId);
             }
 
-            tournament.SeedNextRound();
-            
-            return RedirectToAction("SwissBracket", new { tournamentId = returnedRound.TournamentId });
+            if (tournament.isOver())
+            {
+                return RedirectToAction("Results", new {tournamentId = returnedRound.TournamentId});
+            }
+            else
+            {
+                tournament.SeedNextRound();
+
+                return RedirectToAction("SwissBracket", new { tournamentId = returnedRound.TournamentId });
+            }
         }
 
         [HttpGet]
-        public ActionResult Results()
+        public ActionResult Results(int tournamentId)
         {
-            return View(new ResultsModel());
+            SwissBracket tournament;
+
+            using (var db = new TournamentContext())
+            {
+                tournament = db.SwissBrackets.SingleOrDefault(x => x.TournamentId == tournamentId);
+            }
+
+            var results = tournament.Results();
+
+            return View(results);
         }
     }
 }

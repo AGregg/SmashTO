@@ -1,11 +1,17 @@
-﻿
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace SmashTO.Models
 {
     public class ResultsModel
     {
-        public int Placing { get; set; }
-        public int Player { get; set; }
-        public int Score { get; set; }
+        public string TournamentName { get; set; }
+        
+        public IList<Result> Results { get; set; }
+
+        public ResultsModel()
+        {
+            Results = new List<Result>();
+        }
     }
 }

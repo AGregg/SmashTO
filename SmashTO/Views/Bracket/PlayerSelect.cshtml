@@ -17,6 +17,11 @@
 
     <br/>
     
+    <p>Tournament Name:</p>
+    <p>@Html.TextBoxFor(x => x.TournamentName)</p>
+    
+    <br/>
+    
     <p>@Html.DropDownListFor(x => x.SelectedPlayerIds, new SelectList(Model.Players, "PlayerId", "PlayerName", Model.Players.Select(x => x.PlayerId)), new { multiple = "multiple", @id="multiSelect" })</p>
     
     <p>

@@ -15,6 +15,6 @@ namespace SmashTO.Models
 
         public abstract IList<MatchModel> Matches();  // a list of matches ordered by occurance
         public abstract IList<PlayerModel> Players();  // a list of players that were in the tournament
-        public abstract IList<ResultsModel> Results();  // results of the tournament
+        public abstract ResultsModel Results();  // results of the tournament
     }
 }

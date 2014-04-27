@@ -1,13 +1,15 @@
-﻿@model SmashTO.Models.ResultsModel
+﻿@using SmashTO.Models
+@model SmashTO.Models.ResultsModel
 
 @{
-    ViewBag.Title = "Swiss Bracket Results";
+    ViewBag.Title = Model.TournamentName + " Results";
 }
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
+                <h1>@ViewBag.Title</h1>
+                <h2>@Model.Results.Count Entrants</h2>
             </hgroup>
         </div>
     </section>
@@ -15,5 +17,22 @@
 
 @using (Html.BeginForm("Results", "Bracket"))
 {
+    <table>
+        <tr>
+            <th style="padding: 10px">Placing</th>
+            <th style="padding: 10px">Player Name</th>
+            <th style="padding: 10px">Score</th>
+            <th style="padding: 10px">New Rating</th>
+        </tr>
+        @foreach (var result in Model.Results)
+        {
+            <tr>
+                <td style="padding: 10px">@result.Placing</td>
+                <td style="padding: 10px">@result.PlayerName</td>
+                <td style="padding: 10px">@result.Score</td>
+                <td style="padding: 10px">@result.PlayerRating</td>
+            </tr>
+        }
+    </table>
     
 }
