@@ -26,9 +26,10 @@
     </section>
 }
 
-@using (Html.BeginForm("PostSwissBracket", "Bracket", IsPost))
+@using (Html.BeginForm("SwissBracket", "Bracket", IsPost))
 {
     @Html.HiddenFor(x => x.TournamentId)
+    @Html.HiddenFor(x => x.RoundId)
     @Html.HiddenFor(x => x.RoundNumber)
     <table>
         <thead>

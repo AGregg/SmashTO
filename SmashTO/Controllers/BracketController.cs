@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
+using System.Web.Routing;
 using SmashTO.Models;
 
 namespace SmashTO.Controllers
@@ -33,7 +34,7 @@ namespace SmashTO.Controllers
             if (returnedPlayersModel.Format == TournamentFormat.Swiss)
             {
                 var swissBracketModel = new SwissBracket();
-                swissBracketModel.SeedRound1(returnedPlayersModel.SelectedPlayerIds.ToList());
+                swissBracketModel.SeedFirstRound(returnedPlayersModel.SelectedPlayerIds.ToList());
 
                 //var round = new SwissRound(swissBracketModel.TournamentId, 1);
 
@@ -68,7 +69,7 @@ namespace SmashTO.Controllers
                 //    db.SaveChanges();
                 //}
 
-                return RedirectToAction("SwissBracket", swissBracketModel.TournamentId);
+                return RedirectToAction("SwissBracket", new { tournamentId = swissBracketModel.TournamentId });
             }
 
             return View(returnedPlayersModel);
@@ -90,8 +91,27 @@ namespace SmashTO.Controllers
         }
 
         [HttpPost]
-        public ActionResult PostSwissBracket(SwissRound returnedRound)
+        public ActionResult SwissBracket(SwissRoundModel returnedRound)
         {
+            var tournament = new SwissBracket { TournamentId = returnedRound.TournamentId };
+
+            using (var db = new TournamentContext())
+            {
+                foreach (var swissMatch in returnedRound.Matches)
+                {
+                    var matchToUpdate = db.SwissMatches
+                        .Where(x => x.Player1Id == swissMatch.Player1.Player.PlayerId)
+                        .Where(x => x.Player2Id == swissMatch.Player2.Player.PlayerId)
+                        .SingleOrDefault(x => x.RoundId == returnedRound.RoundId);
+
+                    matchToUpdate.WinnerId = swissMatch.WinnerId;
+                }
+
+                db.SaveChanges();
+                //tournament = db.SwissBrackets.SingleOrDefault(x => x.TournamentId == returnedRound.TournamentId);
+            }
+
+            tournament.SeedNextRound();
             //var swissPlayers = new List<SwissPlayerModel>();
 
             //foreach (var match in returnedRound.Matches)
@@ -156,7 +176,7 @@ namespace SmashTO.Controllers
             //    }
             //}
 
-            return RedirectToAction("SwissBracket", new SwissRound());
+            return RedirectToAction("SwissBracket", new { tournamentId = returnedRound.TournamentId });
         }
 
         [HttpGet]

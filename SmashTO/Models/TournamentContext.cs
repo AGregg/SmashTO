@@ -9,6 +9,7 @@ namespace SmashTO.Models
         public TournamentContext()
             : base("DefaultConnection")
         {
+            this.Configuration.ProxyCreationEnabled = false;
         }
 
         public DbSet<PlayerModel> Players { get; set; }

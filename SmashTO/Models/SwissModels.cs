@@ -24,9 +24,21 @@ namespace SmashTO.Models
             return rounds;
         }
 
-        public void SeedRound1(List<int> playerIds)
+        public void SeedFirstRound(List<int> playerIds)
         {
+            using (var db = new TournamentContext())
+            {
+                db.SwissBrackets.Add(this);
+                db.SaveChanges();
+            }
+
             var round = new SwissRound(TournamentId, 1);
+
+            //using (var db = new TournamentContext())
+            //{
+            //    db.SwissRounds.Add(round);
+            //    db.SaveChanges();
+            //}
 
             var players = new List<PlayerModel>();
 
@@ -41,7 +53,7 @@ namespace SmashTO.Models
 
             while (players.Count() > 1)
             {
-                var matchModel = new SwissMatch(players.First(), players.Last(), round.RoundId);
+                var matchModel = new SwissMatch(players.First(), players.Last()) {Round = round};
                 matches.Add(matchModel);
                 players.RemoveAt(players.Count() - 1);
                 players.RemoveAt(0);
@@ -54,8 +66,6 @@ namespace SmashTO.Models
 
             using (var db = new TournamentContext())
             {
-                db.SwissBrackets.Add(this);
-                db.SwissRounds.Add(round);
                 foreach (var match in matches)
                 {
                     db.SwissMatches.Add(match);
@@ -69,9 +79,15 @@ namespace SmashTO.Models
             var lastRound = Rounds().Last();
             var nextRound = new SwissRound{RoundNumber = lastRound.RoundNumber + 1, TournamentId = lastRound.TournamentId};
 
+            using (var db = new TournamentContext())
+            {
+                db.SwissRounds.Add(nextRound);
+                db.SaveChanges();
+            }
+
             var players = SwissPlayers();
 
-            players = players.OrderByDescending(x => x.Wins).ThenByDescending(x => x.Player.Rating).ToList();
+            players = SwissPlayers().OrderByDescending(x => x.Wins).ThenByDescending(x => x.Player.Rating).ToList();
 
             var subSet = new List<SwissPlayerModel>();
             var matches = new List<SwissMatch>();
@@ -110,13 +126,14 @@ namespace SmashTO.Models
                     }
                 }
             }
+
             using (var db = new TournamentContext())
             {
-                db.SwissRounds.Add(nextRound);
                 foreach (var match in matches)
                 {
                     db.SwissMatches.Add(match);
                 }
+                db.SaveChanges();
             }
         }
 
@@ -133,7 +150,8 @@ namespace SmashTO.Models
 
         public override IList<PlayerModel> Players()
         {
-            var firstRoundMatches = Rounds().OrderBy(x => x.RoundNumber).ToList().First().Matches();
+            var firstRound = Rounds().OrderBy(x => x.RoundNumber).ToList().First();
+            var firstRoundMatches = firstRound.Matches();
             var players = new List<PlayerModel>();
             var playerIds = new List<int>();
             foreach (var match in firstRoundMatches)
@@ -152,8 +170,9 @@ namespace SmashTO.Models
 
         public IList<SwissPlayerModel> SwissPlayers()
         {
+            var matches = Matches();
             var players = Players();
-            var swissPlayers = players.Select(player => new SwissPlayerModel(player)).ToList();
+            var swissPlayers = players.Select(player => new SwissPlayerModel(player, matches)).ToList();
             return swissPlayers;
         } 
 
@@ -191,8 +210,9 @@ namespace SmashTO.Models
             var model = new SwissRoundModel();
             model.RoundNumber = RoundNumber;
             model.TournamentId = TournamentId;
+            model.RoundId = RoundId;
             var matches = Matches();
-
+            
             var bracket = new SwissBracket();
 
             using (var db = new TournamentContext())
@@ -200,13 +220,15 @@ namespace SmashTO.Models
                 bracket = db.SwissBrackets.SingleOrDefault(x => x.TournamentId == TournamentId);
             }
 
+            var matchHistory = bracket.Matches();
+
             using (var db = new TournamentContext())
             {
                 foreach (var match in matches)
                 {
                     var player1 = db.Players.SingleOrDefault(x => x.PlayerId == match.Player1Id);
                     var player2 = db.Players.SingleOrDefault(x => x.PlayerId == match.Player2Id);
-                    model.Matches.Add(new SwissMatchModel(new SwissPlayerModel(player1, bracket), new SwissPlayerModel(player2, bracket)));
+                    model.Matches.Add(new SwissMatchModel(new SwissPlayerModel(player1, matchHistory), new SwissPlayerModel(player2, matchHistory)));
                 }
             }
 
@@ -252,12 +274,11 @@ namespace SmashTO.Models
             WinnerId = bye.PlayerId;
         }
 
-        public SwissMatch(PlayerModel p1, PlayerModel p2, int id)
+        public SwissMatch(PlayerModel p1, PlayerModel p2)
         {
             Player1Id = p1.PlayerId;
             Player2Id = p2.PlayerId;
             WinnerId = 0;
-            RoundId = id;
         }
 
         public SwissMatch(SwissPlayerModel p1, SwissPlayerModel p2, int id)
@@ -280,17 +301,21 @@ namespace SmashTO.Models
     public class SwissRoundModel
     {
         public int RoundNumber { get; set; }
+        public int RoundId { get; set; }
         public int TournamentId { get; set; }
         public IList<SwissMatchModel> Matches { get; set; }
 
-        //public SwissRoundModel
+        public SwissRoundModel()
+        {
+            Matches = new List<SwissMatchModel>();
+        }
     }
 
     public class SwissMatchModel
     {
         public SwissPlayerModel Player1 { get; set; }
         public SwissPlayerModel Player2 { get; set; }
-        public int WinnerId;
+        public int WinnerId { get; set; }
 
         public SwissMatchModel(SwissPlayerModel bye)
         {
@@ -304,13 +329,20 @@ namespace SmashTO.Models
             Player1 = player1;
             Player2 = player2;
         }
+
+        public SwissMatchModel()
+        {
+            Player1 = new SwissPlayerModel();
+            Player2 = new SwissPlayerModel();
+            WinnerId = -1;
+        }
     }
 
     public class SwissPlayerModel
     {
         
         public PlayerModel Player { get; set; }
-        public int Wins;
+        public int Wins { get; set; }
 
         //public int Wins(int tid)
         //{
@@ -325,9 +357,8 @@ namespace SmashTO.Models
         //    return matches.Count(match => match.WinnerId == Player.PlayerId);
         //}
 
-        public SwissPlayerModel(PlayerModel player, SwissBracket bracket)
+        public SwissPlayerModel(PlayerModel player, IEnumerable<MatchModel> matches)
         {
-            var matches = bracket.Matches();
             Player = player;
             Wins = matches.Count(match => match.WinnerId == Player.PlayerId);
         }
@@ -335,6 +366,12 @@ namespace SmashTO.Models
         public SwissPlayerModel(PlayerModel player)
         {
             Player = player;
+            Wins = 0;
+        }
+
+        public SwissPlayerModel()
+        {
+            Player = null;
             Wins = 0;
         }
     }
