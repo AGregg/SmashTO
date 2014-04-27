@@ -10,9 +10,7 @@ namespace SmashTO.Models
     [Table("SwissBrackets")]
     public class SwissBracket : BracketModel
     {
-        
-
-        public List<SwissRound> Rounds()
+        public IEnumerable<SwissRound> Rounds()
         {
             var rounds = new List<SwissRound>();
 
@@ -34,13 +32,7 @@ namespace SmashTO.Models
 
             var round = new SwissRound(TournamentId, 1);
 
-            //using (var db = new TournamentContext())
-            //{
-            //    db.SwissRounds.Add(round);
-            //    db.SaveChanges();
-            //}
-
-            var players = new List<PlayerModel>();
+            List<PlayerModel> players;
 
             using (var db = new TournamentContext())
             {
@@ -195,7 +187,7 @@ namespace SmashTO.Models
 
         public int RoundNumber { get; set; }
 
-        public IList<SwissMatch> Matches()
+        public IEnumerable<SwissMatch> Matches()
         {
             var matches = new List<SwissMatch>();
             using (var db = new TournamentContext())
@@ -233,11 +225,6 @@ namespace SmashTO.Models
             }
 
             return model;
-        }
-
-        public void Save(SwissRoundModel model)
-        {
-            
         }
 
         public SwissRound(int tid, int roundNum)
@@ -343,19 +330,6 @@ namespace SmashTO.Models
         
         public PlayerModel Player { get; set; }
         public int Wins { get; set; }
-
-        //public int Wins(int tid)
-        //{
-        //    var bracket = new SwissBracket();
-        //    using (var db = new SwissBracketContext())
-        //    {
-        //        bracket = db.SwissBrackets.Single(x => x.TournamentId == tid);
-        //    }
-
-        //    var matches = bracket.Matches();
-
-        //    return matches.Count(match => match.WinnerId == Player.PlayerId);
-        //}
 
         public SwissPlayerModel(PlayerModel player, IEnumerable<MatchModel> matches)
         {
