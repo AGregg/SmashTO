@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.Linq;
@@ -81,14 +82,38 @@ namespace SmashTO.Controllers
 
             if (tournament.isOver())
             {
+                //update ratings
+                var matches = tournament.Matches();
+                var players = tournament.Players();
+                var playersWithNewRatings = players.Select(player => new PlayerModel {PlayerId = player.PlayerId, Rating = player.Rating}).ToList();
+
+                foreach (var match in matches)
+                {
+                    var p1Rating = players.Single(x => x.PlayerId == match.Player1Id).Rating;
+                    var p2Rating = players.Single(x => x.PlayerId == match.Player2Id).Rating;
+                    var p1Expected = (1 / (1 + (10 ^ (p2Rating - p1Rating)/400)));
+                    var p1Result = (match.WinnerId == match.Player1Id ? 1.00 : 0.00);
+                    var p1Adjust = (int)Math.Round(32*(p1Result - p1Expected));
+                    playersWithNewRatings.Single(x => x.PlayerId == match.Player1Id).Rating += p1Adjust;
+                    playersWithNewRatings.Single(x => x.PlayerId == match.Player2Id).Rating -= p1Adjust;
+                }
+
+                using (var db = new TournamentContext())
+                {
+                    foreach (var player in playersWithNewRatings)
+                    {
+                        var playerToEdit = db.Players.SingleOrDefault(x => x.PlayerId == player.PlayerId);
+                        playerToEdit.Rating = player.Rating;
+                    }
+                    db.SaveChanges();
+                }
+
                 return RedirectToAction("Results", new {tournamentId = returnedRound.TournamentId});
             }
-            else
-            {
-                tournament.SeedNextRound();
+            
+            tournament.SeedNextRound();
 
-                return RedirectToAction("SwissBracket", new { tournamentId = returnedRound.TournamentId });
-            }
+            return RedirectToAction("SwissBracket", new { tournamentId = returnedRound.TournamentId });
         }
 
         [HttpGet]
