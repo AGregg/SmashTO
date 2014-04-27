@@ -185,7 +185,8 @@ namespace SmashTO.Models
                 {
                     Placing = i + 1,
                     PlayerName = players[i].Player.PlayerName,
-                    Score = players[i].Wins
+                    Score = players[i].Wins,
+                    PlayerRating = players[i].Player.Rating
                 });
             }
             resultsModel.TournamentName = Name;
