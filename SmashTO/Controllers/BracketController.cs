@@ -87,12 +87,12 @@ namespace SmashTO.Controllers
                 foreach (var match in matches)
                 {
                     var p1Rating = players.Single(x => x.PlayerId == match.Player1Id).Rating;
-                    var p2Rating = players.Single(x => x.PlayerId == match.Player2Id).Rating;
+                    var p2Rating = match.Player2Id != -1 ? players.Single(x => x.PlayerId == match.Player2Id).Rating : 0;
                     var p1Expected = (1 / (1 + (10 ^ (p2Rating - p1Rating)/400)));
                     var p1Result = (match.WinnerId == match.Player1Id ? 1.00 : 0.00);
                     var p1Adjust = (int)Math.Round(32*(p1Result - p1Expected));
                     playersWithNewRatings.Single(x => x.PlayerId == match.Player1Id).Rating += p1Adjust;
-                    playersWithNewRatings.Single(x => x.PlayerId == match.Player2Id).Rating -= p1Adjust;
+                    if (match.Player2Id != -1) playersWithNewRatings.Single(x => x.PlayerId == match.Player2Id).Rating -= p1Adjust;
                 }
 
                 using (var db = new TournamentContext())
@@ -102,6 +102,10 @@ namespace SmashTO.Controllers
                         var playerToEdit = db.Players.SingleOrDefault(x => x.PlayerId == player.PlayerId);
                         playerToEdit.Rating = player.Rating;
                     }
+
+                    var tournamentFinished = db.SwissBrackets.SingleOrDefault(x => x.TournamentId == tournament.TournamentId);
+                    tournamentFinished.IsFinished = true;
+
                     db.SaveChanges();
                 }
 
@@ -126,6 +130,31 @@ namespace SmashTO.Controllers
             var results = tournament.Results();
 
             return View(results);
+        }
+
+        [HttpGet]
+        public ActionResult TournamentList()
+        {
+            var model = new TournamentSelectModel();
+
+            using (var db = new TournamentContext())
+            {
+                var tournaments = db.SwissBrackets;
+
+                foreach (var tournament in tournaments)
+                {
+                    if (tournament.IsFinished)
+                    {
+                        model.FinishedBrackets.Add(tournament);
+                    }
+                    else
+                    {
+                        model.InProgressBrackets.Add(tournament);
+                    }
+                }
+            }
+
+            return View(model);
         }
     }
 }

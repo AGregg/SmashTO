@@ -202,6 +202,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MatchModel.cs" />
+    <Compile Include="Models\TournamentSelectModel.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\TournamentContext.cs" />
     <Compile Include="Models\ResultsModel.cs" />
@@ -228,6 +229,10 @@
     <Content Include="App_Data\Database4.mdf" />
     <Content Include="App_Data\Database4_log.ldf">
       <DependentUpon>Database4.mdf</DependentUpon>
+    </Content>
+    <Content Include="App_Data\Database5.mdf" />
+    <Content Include="App_Data\Database5_log.ldf">
+      <DependentUpon>Database5.mdf</DependentUpon>
     </Content>
     <Content Include="Content\themes\base\images\switch.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -352,6 +357,7 @@
     <Content Include="Views\Bracket\BracketHome.cshtml" />
     <Content Include="Views\Bracket\PlayerSelect.cshtml" />
     <Content Include="Views\Bracket\Results.cshtml" />
+    <Content Include="Views\Bracket\TournamentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201404241319420_InitialCreate.resx">

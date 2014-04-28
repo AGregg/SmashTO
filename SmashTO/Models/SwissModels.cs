@@ -236,7 +236,7 @@ namespace SmashTO.Models
                 foreach (var match in matches)
                 {
                     var player1 = db.Players.SingleOrDefault(x => x.PlayerId == match.Player1Id);
-                    var player2 = db.Players.SingleOrDefault(x => x.PlayerId == match.Player2Id);
+                    var player2 = db.Players.SingleOrDefault(x => x.PlayerId == match.Player2Id) ?? new PlayerModel{PlayerId = -1, PlayerName = "bye", Rating = 0};
                     model.Matches.Add(new SwissMatchModel(new SwissPlayerModel(player1, matchHistory), new SwissPlayerModel(player2, matchHistory)));
                 }
             }

@@ -12,6 +12,12 @@ namespace SmashTO.Models
         public int TournamentId { get; set; }
 
         public String Name { get; set; }
+        public bool IsFinished { get; set; }
+
+        public BracketModel()
+        {
+            IsFinished = false;
+        }
 
         public abstract IList<MatchModel> Matches();  // a list of matches ordered by occurance
         public abstract IList<PlayerModel> Players();  // a list of players that were in the tournament

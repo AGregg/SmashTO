@@ -1,0 +1,26 @@
+﻿@model SmashTO.Models.TournamentSelectModel
+
+@{
+    ViewBag.Title = "Tournament Listing";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title</h1>
+            </hgroup>
+        </div>
+    </section>
+}
+
+<h2>In Progress</h2>
+@foreach (var tournament in Model.InProgressBrackets)
+{
+    <p><a href="@Url.Action("SwissBracket", "Bracket", new { tournamentId = tournament.TournamentId })">@tournament.Name</a></p>
+}
+
+<h2>Finished</h2>
+@foreach (var tournament in Model.FinishedBrackets)
+{
+    <p><a href="@Url.Action("Results", "Bracket", new { tournamentId = tournament.TournamentId })">@tournament.Name</a></p>
+}
